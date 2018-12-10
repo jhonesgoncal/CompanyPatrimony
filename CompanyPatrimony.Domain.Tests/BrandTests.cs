@@ -19,7 +19,7 @@ namespace CompanyPatrimony.Domain.Tests
         [TestCategory("Brand - new Brand")]
         public void GivenAInvalidNameShouldReturnNotifications()
         {
-            var patrimony = new Brand("Brand 1");
+            var patrimony = new Brand("");
 
             Assert.IsFalse(patrimony.Valid);
         }
