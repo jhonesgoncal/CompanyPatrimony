@@ -4,7 +4,7 @@ using Flunt.Validations;
 
 namespace CompanyPatrimony.Domain.Entities
 {
-    public class Patrimony : Entity
+    public class Patrimony : Entity<Patrimony>
     {
         public Patrimony(string name, string description,  Brand brand)
         {
@@ -16,8 +16,6 @@ namespace CompanyPatrimony.Domain.Entities
                 .HasMinLen(description, 3, "Description", "A descrição do patrimonio deve ter no minimo 3 caracteres")
                 .HasMaxLen(description, 500, "Description", "A descrição do patrimonio deve ter no maximo 500 caracteres")
             );
-
-            AddNotifications(brand.Notifications);
 
             Name = name;
             Description = description;

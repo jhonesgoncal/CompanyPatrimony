@@ -4,7 +4,7 @@ using Flunt.Validations;
 
 namespace CompanyPatrimony.Domain.Entities
 {
-    public class Brand : Entity
+    public class Brand : Entity<Brand>
     {
         public Brand(string name)
         {
