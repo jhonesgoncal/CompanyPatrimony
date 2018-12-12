@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.0" />
@@ -20,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CompanyPatrimony.Domain.Core\CompanyPatrimony.Domain.Core.csproj" />
+    <ProjectReference Include="..\CompanyPatrimony.Domain\CompanyPatrimony.Domain.csproj" />
+    <ProjectReference Include="..\CompanyPatrimony.Infra.CrossCutting.IoC\CompanyPatrimony.Infra.CrossCutting.IoC.csproj" />
     <ProjectReference Include="..\CompanyPatrimony.Infra.Data\CompanyPatrimony.Infra.Data.csproj" />
     <ProjectReference Include="..\CompanyPatrimony.Service\CompanyPatrimony.Service.csproj" />
   </ItemGroup>

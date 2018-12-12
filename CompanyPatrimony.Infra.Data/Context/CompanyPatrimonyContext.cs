@@ -8,6 +8,10 @@ namespace CompanyPatrimony.Infra.Data.Context
 {
     public class CompanyPatrimonyContext : DbContext
     {
+        public CompanyPatrimonyContext(DbContextOptions<CompanyPatrimonyContext> options)
+            : base(options) { }
+        public CompanyPatrimonyContext() { }
+
         public DbSet<Patrimony> Patrimonies { get; set; }
         public DbSet<Brand> Brands { get; set; }
 
