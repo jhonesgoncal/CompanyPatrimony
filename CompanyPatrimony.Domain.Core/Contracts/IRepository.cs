@@ -8,7 +8,7 @@ namespace CompanyPatrimony.Domain.Core.Contracts
     {
         void Add(TEntity entity);
         void Update(TEntity entity);
-        void Remove();
+        void Remove(Guid id);
         TEntity GetById(Guid id);
         IEnumerable<TEntity> GetAll();
         int SaveChanges();
