@@ -1,5 +1,4 @@
 # CompanyPatrimony
-=====================
 
 API Rest para gerenciamento de patrimonios. 
 
