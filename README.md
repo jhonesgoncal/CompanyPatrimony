@@ -12,7 +12,6 @@ Lembre-se de estar com o sdk atualizado.
 - ASP.NET Core 2.0 (com .NET Core)
  - ASP.NET WebApi Core
 - Entity Framework Core 
-- .NET Core Native DI
 - AutoMapper
 - Fluent
 
