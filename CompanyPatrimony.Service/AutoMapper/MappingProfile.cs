@@ -4,10 +4,12 @@ using CompanyPatrimony.Service.ViewModels;
 
 namespace CompanyPatrimony.Service.AutoMapper
 {
-    public class DomainToViewModelMappingProfile : Profile
+    public class MappingProfile : Profile
     {
-        public DomainToViewModelMappingProfile()
+        public MappingProfile()
         {
+            CreateMap<PatrimonyViewModel, Patrimony>();
+            CreateMap<BrandViewModel, Brand>();
             CreateMap<Patrimony, PatrimonyViewModel>();
             CreateMap<Brand, BrandViewModel>();
         }

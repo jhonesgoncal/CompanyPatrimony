@@ -16,8 +16,7 @@ namespace CompanyPatrimony.API.Controllers
             _patrimonyService = patrimonyService;
             _brandService = brandService;
         }
-
-
+        
 
         [HttpGet]
         [Route("brand")]
@@ -27,7 +26,7 @@ namespace CompanyPatrimony.API.Controllers
         }
 
         [HttpGet]
-        [Route("brand/{id:guid}/patromony")]
+        [Route("brand/{id:guid}/patrimony")]
         public IEnumerable<PatrimonyViewModel> GetByIdBrand(Guid id)
         {
             return _patrimonyService.GetAllByIdBrand(id);
@@ -45,25 +44,25 @@ namespace CompanyPatrimony.API.Controllers
         public IActionResult Post([FromBody] BrandViewModel brandViewModel)
         {
             var result = _brandService.Add(brandViewModel);
-            SetNotifications(_patrimonyService.GetNotifications());
-            return Response(result);
+            SetNotifications(result.Item2);
+            return Response(result.Item1);
         }
 
         [HttpPut]
         [Route("brand")]
         public IActionResult Put([FromBody] BrandViewModel brandViewModel)
         {
-            var result = _brandService.Add(brandViewModel);
-            SetNotifications(_patrimonyService.GetNotifications());
-            return Response(result);
+            var result = _brandService.Update(brandViewModel);
+            SetNotifications(result.Item2);
+            return Response(result.Item1);
         }
 
         [HttpDelete]
         [Route("brand/{id:guid}")]
         public IActionResult Delete(Guid id)
         {
-            _brandService.Remove(id);
-            SetNotifications(_patrimonyService.GetNotifications());
+            var result = _brandService.Remove(id);
+            SetNotifications(result);
             return Response();
         }
     }

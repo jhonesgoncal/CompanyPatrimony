@@ -35,25 +35,25 @@ namespace CompanyPatrimony.API.Controllers
         public IActionResult Post([FromBody] PatrimonyViewModel patrimonyViewModel)
         {
             var result = _patrimonyService.Add(patrimonyViewModel);
-            SetNotifications(_patrimonyService.GetNotifications());
-            return Response(result);
+            SetNotifications(result.Item2);
+            return Response(result.Item1);
         }
 
         [HttpPut]
         [Route("patrimony")]
         public IActionResult Put([FromBody] PatrimonyViewModel patrimonyViewModel)
         {
-            var result = _patrimonyService.Add(patrimonyViewModel);
-            SetNotifications(_patrimonyService.GetNotifications());
-            return Response(result);
+            var result = _patrimonyService.Update(patrimonyViewModel);
+            SetNotifications(result.Item2);
+            return Response(result.Item1);
         }
 
         [HttpDelete]
         [Route("patrimony/{id:guid}")]
         public IActionResult Delete(Guid id)
         {
-            _patrimonyService.Remove(id);
-            SetNotifications(_patrimonyService.GetNotifications());
+            var result = _patrimonyService.Remove(id);
+            SetNotifications(result);
             return Response();
         }
     }

@@ -7,11 +7,11 @@ namespace CompanyPatrimony.Service.Contracts
 {
     public interface IBrandService : IDisposable
     {
-        BrandViewModel Add(BrandViewModel viewModel);
-        BrandViewModel Update(BrandViewModel viewModel);
+        Tuple<BrandViewModel, IReadOnlyCollection<Notification>> Add(BrandViewModel viewModel);
+        Tuple<BrandViewModel, IReadOnlyCollection<Notification>> Update(BrandViewModel viewModel);
         IEnumerable<BrandViewModel> GetAll();
         BrandViewModel GetById(Guid id);
-        void Remove(Guid id);
+        IReadOnlyCollection<Notification> Remove(Guid id);
         IReadOnlyCollection<Notification> GetNotifications();
     }
 }

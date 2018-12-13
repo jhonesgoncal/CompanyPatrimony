@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using CompanyPatrimony.Domain.Entities;
 using CompanyPatrimony.Infra.Data.Mappings;
+using Flunt.Notifications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -17,19 +18,23 @@ namespace CompanyPatrimony.Infra.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Ignore<Notification>();
             modelBuilder.ApplyConfiguration(new PatrimonyMap());
             modelBuilder.ApplyConfiguration(new BrandMap());
+             
+            base.OnModelCreating(modelBuilder);
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    //var config = new ConfigurationBuilder()
-        //    //     .SetBasePath(Directory.GetCurrentDirectory())
-        //    //     .AddJsonFile("config.json", optional: true, reloadOnChange: true)
-        //    //     .Build();
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
 
-        //    //optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
-        //    optionsBuilder.UseSqlServer(@"Server=DESKTOP-TCKG8E1\SQLEXPRESS;Database=CompanyPatrimony;Trusted_Connection=Yes");
-        //}
+            optionsBuilder.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+
+            base.OnConfiguring(optionsBuilder);
+        }
     }
 }

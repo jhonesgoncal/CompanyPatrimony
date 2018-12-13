@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Flunt.Notifications;
 using Newtonsoft.Json;
 
 namespace CompanyPatrimony.Service.ViewModels
@@ -12,5 +14,6 @@ namespace CompanyPatrimony.Service.ViewModels
 
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; }
+        
     }
 }

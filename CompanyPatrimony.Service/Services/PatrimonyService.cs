@@ -28,7 +28,7 @@ namespace CompanyPatrimony.Service.Services
             _unitOfWork = unitOfWork;
         }
 
-        public PatrimonyViewModel Add(PatrimonyViewModel viewModel)
+        public Tuple<PatrimonyViewModel, IReadOnlyCollection<Notification>> Add(PatrimonyViewModel viewModel)
         {
             var entity = _mapper.Map<Patrimony>(viewModel);
             if (entity.Valid)
@@ -49,10 +49,10 @@ namespace CompanyPatrimony.Service.Services
 
             AddNotifications(entity.Notifications);
 
-            return _mapper.Map<PatrimonyViewModel>(entity);
+            return new Tuple<PatrimonyViewModel, IReadOnlyCollection<Notification>>(_mapper.Map<PatrimonyViewModel>(entity), entity.Notifications);
         }
 
-        public PatrimonyViewModel Update(PatrimonyViewModel viewModel)
+        public Tuple<PatrimonyViewModel, IReadOnlyCollection<Notification>> Update(PatrimonyViewModel viewModel)
         {
             var entity = _mapper.Map<Patrimony>(viewModel);
             if (entity.Valid)
@@ -60,7 +60,13 @@ namespace CompanyPatrimony.Service.Services
                 var brand = _brandService.GetById(entity.BrandId);
                 if (brand != null)
                 {
-                    _patrimonyRepository.Update(entity);
+                    Patrimony entityDb = _patrimonyRepository.GetById(entity.Id);
+                    if (entityDb != null)
+                    {
+                        entity.setNumberTumble(entityDb.NumberTumble);
+                        _patrimonyRepository.Update(entity);
+                    }
+                    
                     CommandResponse commandResponse = _unitOfWork.Commit();
                     if (!commandResponse.Success)
                     {
@@ -72,7 +78,7 @@ namespace CompanyPatrimony.Service.Services
             }
 
             AddNotifications(entity.Notifications);
-            return _mapper.Map<PatrimonyViewModel>(entity);
+            return new Tuple<PatrimonyViewModel, IReadOnlyCollection<Notification>>(_mapper.Map<PatrimonyViewModel>(entity), entity.Notifications);
         }
 
         public IEnumerable<PatrimonyViewModel> GetAll()
@@ -90,7 +96,7 @@ namespace CompanyPatrimony.Service.Services
             return _mapper.Map<PatrimonyViewModel>(_patrimonyRepository.GetById(id));
         }
 
-        public void Remove(Guid id)
+        public IReadOnlyCollection<Notification> Remove(Guid id)
         {
             _patrimonyRepository.Remove(id);
             CommandResponse commandResponse = _unitOfWork.Commit();
@@ -98,6 +104,8 @@ namespace CompanyPatrimony.Service.Services
             {
                 AddNotification(new Notification("", "Erro ao excluir"));
             }
+
+            return GetNotifications();
         }
 
         public void Dispose()

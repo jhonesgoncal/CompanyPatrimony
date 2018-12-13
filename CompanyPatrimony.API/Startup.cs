@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.IO;
+using AutoMapper;
 using CompanyPatrimony.Infra.CrossCutting.IoC;
 using CompanyPatrimony.Infra.Data.Context;
 using CompanyPatrimony.Service.AutoMapper;
@@ -14,19 +15,22 @@ namespace CompanyPatrimony.API
     {
         public Startup(IConfiguration configuration)
         {
+           
+
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration;
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<CompanyPatrimonyContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
 
+            //AutoMapperConfiguration.RegisterMappings();
             services.AddMvc();
+            Mapper.Initialize(cfg => cfg.AddProfile<MappingProfile>());
             services.AddAutoMapper();
 
             RegisterServices(services);

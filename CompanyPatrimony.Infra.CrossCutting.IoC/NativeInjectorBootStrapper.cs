@@ -20,7 +20,7 @@ namespace CompanyPatrimony.Infra.CrossCutting.IoC
             services.AddSingleton(Mapper.Configuration);
             services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<IConfigurationProvider>(), sp.GetService));
             services.AddScoped<IPatrimonyService, PatrimonyService>();
-            services.AddScoped<IBrandService, IBrandService>();
+            services.AddScoped<IBrandService, BrandService>();
 
             //Infra - Data
             services.AddScoped<IPatrimonyRepository, PatrimonyRepository>();

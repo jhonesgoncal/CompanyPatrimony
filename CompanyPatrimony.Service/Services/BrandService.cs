@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using CompanyPatrimony.Domain.Contracts;
 using CompanyPatrimony.Domain.Core.Commands;
@@ -24,13 +25,13 @@ namespace CompanyPatrimony.Service.Services
             _unitOfWork = unitOfWork;
         }
 
-        public BrandViewModel Add(BrandViewModel viewModel)
+        public Tuple<BrandViewModel, IReadOnlyCollection<Notification>> Add(BrandViewModel viewModel)
         {
-            var entity = _mapper.Map<Brand>(viewModel);
+             Brand entity = _mapper.Map<Brand>(viewModel);
             if (entity.Valid)
             {
-                var brand = _brandRepository.Find(x => x.Name.ToLower() == entity.Name.ToLower());
-                if (brand == null)
+                var brand = _brandRepository.Find(x => x.Name.ToLower() == entity.Name.ToLower()).ToList();
+                if (!brand.Any())
                 {
                     _brandRepository.Add(entity);
                     CommandResponse commandResponse = _unitOfWork.Commit();
@@ -45,17 +46,17 @@ namespace CompanyPatrimony.Service.Services
             }
 
             AddNotifications(entity.Notifications);
-            return _mapper.Map<BrandViewModel>(entity);
+            return new Tuple<BrandViewModel, IReadOnlyCollection<Notification>>(_mapper.Map<BrandViewModel>(entity), entity.Notifications);
         }
 
-        public BrandViewModel Update(BrandViewModel viewModel)
+        public Tuple<BrandViewModel, IReadOnlyCollection<Notification>> Update(BrandViewModel viewModel)
         {
             var entity = _mapper.Map<Brand>(viewModel);
             if (entity.Valid)
                _brandRepository.Update(entity);
 
             AddNotifications(entity.Notifications);
-            return _mapper.Map<BrandViewModel>(entity);
+            return new Tuple<BrandViewModel, IReadOnlyCollection<Notification>>(_mapper.Map<BrandViewModel>(entity), entity.Notifications);
         }
 
         public IEnumerable<BrandViewModel> GetAll()
@@ -68,7 +69,7 @@ namespace CompanyPatrimony.Service.Services
             return _mapper.Map<BrandViewModel>(_brandRepository.GetById(id));
         }
 
-        public void Remove(Guid id)
+        public IReadOnlyCollection<Notification> Remove(Guid id)
         {
             _brandRepository.Remove(id);
             CommandResponse commandResponse = _unitOfWork.Commit();
@@ -76,6 +77,8 @@ namespace CompanyPatrimony.Service.Services
             {
                 AddNotification(new Notification("", "Erro ao excluir"));
             }
+
+            return GetNotifications();
         }
 
         public void Dispose()

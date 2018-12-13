@@ -26,6 +26,13 @@ namespace CompanyPatrimony.Infra.Data.Mappings
                 .IsRequired();
 
             builder
+                .Ignore(p => p.Notifications);
+            builder
+                .Ignore(p => p.Invalid);
+            builder
+                .Ignore(p => p.Valid);
+
+            builder
                 .HasOne(p => p.Brand)
                 .WithMany(b => b.Patrimonies)
                 .HasForeignKey(p => p.BrandId);

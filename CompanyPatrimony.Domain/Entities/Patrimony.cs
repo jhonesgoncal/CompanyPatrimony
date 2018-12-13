@@ -32,5 +32,11 @@ namespace CompanyPatrimony.Domain.Entities
 
         //EF props de navegação
         public virtual Brand Brand { get; private set; }
+
+
+        public void setNumberTumble(Guid number)
+        {
+            this.NumberTumble = number;
+        }
     }
 }
