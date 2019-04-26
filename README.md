@@ -13,7 +13,7 @@ Lembre-se de estar com o sdk atualizado.
  - ASP.NET WebApi Core
 - Entity Framework Core 
 - AutoMapper
-- Fluent
+- Flunt
 
 ## Arquitetura:
 
